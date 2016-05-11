@@ -21,6 +21,11 @@ For details, see:
 
 http://creativecommons.org/licenses/by-sa/3.0/
 
+## Summary
+
+The GEDCOM X XML Serialization Format spec specifies how to represent the [GEDCOM X Conceptual
+Model](https://github.com/FamilySearch/gedcomx/blob/master/specifications/conceptual-model-specification.md) in XML. The spec includes examples, notational conventions, top-level data types, component-level data types, XML-specific data types, the GEDCOM X element, extensibility, and fragment identifiers.
+
 <a name="intro"/>
 
 # 1. Introduction
@@ -436,8 +441,8 @@ person | A reference to the person that describes this agent. | gx:person | [`gx
     ...
     <gx:name>...</gx:name>
     ...
-    <gx:homepage>...</gx:homepage>
-    <gx:openid>...</gx:openid>
+    <gx:homepage resource="..."/>
+    <gx:openid resource="..."/>
     <gx:account>
       ...
     </gx:account>
@@ -549,9 +554,8 @@ spatialDescription | A reference to a geospatial description of this place. | gx
 
     <!-- ...the members of [gx:Subject](#subject)... -->
 
-    <gx:name>
-      ...
-    </gx:name>
+    <gx:name lang="en">Pope's Creek, Westmoreland, Virginia, United States</gx:name>
+    <gx:name lang="zh">教皇的小河，威斯特摩兰，弗吉尼亚州，美国</gx:name>
     ...
     <gx:place resource="..."/>
     <gx:jurisdiction resource="..."/>
@@ -607,14 +611,18 @@ name | description | XML property | XML type
 contributor | Reference to the contributor to whom the attributed data is attributed. | gx:contributor | [`gx:ResourceReference`](#resource-reference)
 modified | Timestamp of when the attributed data was contributed. | gx:modified | xsd:dateTime
 changeMessage | A statement of why the attributed data is being provided by the contributor. | gx:changeMessage | xsd:string
+creator | Reference to the agent that created the attributed data. The creator MAY be different from the contributor if changes were made to the attributed data. | gx:creator | [`gx:ResourceReference`](#resource-reference)
+created | Timestamp of when the attributed data was contributed. | gx:created | xsd:dateTime
 
 ### examples
 
 ```xml
   <...>
     <gx:contributor resource="http://identifier/for/contributor"/>
-    <gx:modified>2012-05-29T00:00:00</gx:modified>
+    <gx:modified>2012-06-29T00:00:00</gx:modified>
     <gx:changeMessage>...change message here...</gx:changeMessage>
+    <gx:creator resource="http://identifier/for/creator"/>
+    <gx:created>2012-05-29T00:00:00</gx:created>
 
     <!-- possibility of extension elements -->
 
@@ -683,14 +691,13 @@ The `gx:SourceCitation` XML type is used to (de)serialize the
 name | description | XML property | XML type
 -----|-------------|--------------|---------
 lang | The locale identifier for the citation. | xml:lang (attribute) | [IETF BCP 47](http://tools.ietf.org/html/bcp47) locale tag
-textType | The type of text in the `value` property. | textType (attribute) | xsd:string
 value | A rendering of the full citation as a string. | gx:value | xsd:string
 
 ### examples
 
 ```xml
   <... xml:lang="en">
-    <gx:value textType="plain">...a rendering of the full citation as a string...</gx:value>
+    <gx:value>...a rendering of the full citation as a string...</gx:value>
 
     <!-- possibility of extension elements -->
 
@@ -742,7 +749,6 @@ attribution | The attribution of this evidence reference. | gx:attribution | [`g
 
 ```xml
   <... resource="http://identifier/for/data/being/referenced">
-    <gx:analysis resource="http://identifier/for/analysis/document"/>
     <gx:attribution>
       ...
     </gx:attribution>
@@ -1231,6 +1237,7 @@ sourceDescriptions | The list of source descriptions contained in the data set. 
 agents | The list of agents contained in the data set. | gx:agent | [`gx:Agent`](#agent) | OPTIONAL.
 events | The list of events contained in the data set. | gx:event | [`gx:Event`](#event) | OPTIONAL.
 documents | The list of documents contained in the data set. | gx:document | [`gx:Document`](#document) | OPTIONAL.
+places | The list of places contained in the data set. | gx:place | [`gx:PlaceDescription`](#place-description) | OPTIONAL.
 description | Reference to the description of this data set. | description (attribute) | [`URI`](#uri) | OPTIONAL. If provided, MUST resolve to an instance of [`gx:SourceDescription`](#source-description).
 
 ### examples
@@ -1255,6 +1262,9 @@ description | Reference to the description of this data set. | description (attr
   ...
   <gx:document>...</gx:document>
   <gx:document>...</gx:document>
+  ...
+  <gx:place>...</gx:place>
+  <gx:place>...</gx:place>
   ...
 
   <!-- possibility of extension elements -->
@@ -1313,6 +1323,10 @@ The following is an example of the structure of a GEDCOM X XML Element:
 
   <document>...</document>
   <document>...</document>
+  ...
+
+  <place>...</place>
+  <place>...</place>
   ...
 
   <!-- possibility of extension elements -->

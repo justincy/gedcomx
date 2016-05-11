@@ -20,6 +20,10 @@ For details, see:
 
 http://creativecommons.org/licenses/by-sa/3.0/
 
+## Summary
+
+The GEDCOM X Conceptual Model spec specifies an abstract conceptual model for genealogical data, independent of any serialization format. The concept and data types provided are used to represent genealogical data and are defined independent of their representation, establishing a basis for having different representations (XML and JSON) of the same data. The spec includes notational conventions, definitions, top-level and component-level data types, extracted conclusion constraints, and extensibility.
+
 <a name="intro"/>
 
 # 1. Introduction
@@ -75,7 +79,7 @@ relationships, and sources.
     * [3.12.1 Known Gender Types](#known-gender-types)
   * [3.13 The "Name" Data Type](#name-conclusion)
     * [3.13.1 Known Name Types](#known-name-types)
-  * [3.14 The "Fact" Data Type](#3-fact-conclusions)
+  * [3.14 The "Fact" Data Type](#3-fact-conclusion)
     * [3.14.1 Known Fact Types](#known-fact-types)
     * [3.14.2 Known Fact Qualifiers](#known-fact-qualifier)
   * [3.15 The "EventRole" Data Type](#conclusion-event-role)
@@ -712,6 +716,8 @@ name  | description | data type | constraints
 contributor | Reference to the agent to whom the attributed data is attributed. | [URI](#uri) | OPTIONAL. If provided, MUST resolve to an instance of [`http://gedcomx.org/v1/Agent`](#agent).
 modified | Timestamp of when the attributed data was contributed. | timestamp | OPTIONAL.
 changeMessage | A statement of why the attributed data is being provided by the contributor. | string | OPTIONAL.
+creator | Reference to the agent that created the attributed data. The creator MAY be different from the contributor if changes were made to the attributed data. | [URI](#uri) | OPTIONAL. If provided, MUST resolve to an instance of [`http://gedcomx.org/v1/Agent`](#agent).
+created | Timestamp of when the attributed data was contributed. | timestamp | OPTIONAL.
 
 
 <a name="note"/>
